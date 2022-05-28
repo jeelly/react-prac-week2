@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 
 // styled componets
 import styled from "styled-components";
@@ -7,7 +8,7 @@ import { Link } from "react-router-dom";
 
 import { Provider, useSelector, useDispatch, connect } from "react-redux";
 
-let Nav = () => {
+let Nav = (props) => {
   const item = [];
   const topics = useSelector((state) => state);
   for (let i = 0; i < topics.length; i++) {
@@ -15,9 +16,19 @@ let Nav = () => {
     // console;
     item.push(
       <Item key={t.id}>
-        <Link id={t.id} to={"read" + t.id}>
+        {/* <Link id={t.id} to={"read" + t.id}>
           {t.title}
-        </Link>
+        </Link> */}
+        <a
+          id={t.id}
+          href={"/read/" + t.id}
+          onClick={(event) => {
+            event.preventDefault();
+            props.onChangeMode(Number(event.target.id));
+          }}
+        >
+          {t.title}
+        </a>
         <p>{t.mean}</p>
         <p>{t.comment}</p>
       </Item>
@@ -27,11 +38,47 @@ let Nav = () => {
 };
 
 export default function ListPage() {
-  // const topics = useSelector((state) => state);
-  // console.log(topics);
+  let content = null;
+
+  //리덕스
+  const topics = useSelector((state) => state);
+  //모드 생성
+  const [mode, setMode] = useState("MAIN");
+  //아이디 생성
+  const [id, setId] = useState(null);
+
+  if (mode === "MAIN") {
+    content = <article>웰컴모드입니다.</article>;
+  } else if (mode === "READ") {
+    let title,
+      mean,
+      comment = null;
+    for (let i = 0; i < topics.length; i++) {
+      console.log(topics[i].id, id);
+      if (topics[i].id === id) {
+        title = topics[i].title;
+        mean = topics[i].mean;
+        comment = topics[i].comment;
+      }
+    }
+    content = (
+      <SelectItem>
+        <p>{title}</p>
+        <p>{mean}</p>
+        <p>{comment}</p>
+      </SelectItem>
+    );
+  }
+
   return (
     <>
-      <Nav />
+      {content}
+      <Nav
+        onChangeMode={(_id) => {
+          setMode("READ");
+          setId(_id);
+        }}
+      />
     </>
   );
 }
@@ -39,6 +86,15 @@ export default function ListPage() {
 const Item = styled.li`
   text-align: center;
   border: 1px solid rosybrown;
+  width: 300px;
+  padding: 50px;
+  margin-bottom: 30px;
+`;
+
+const SelectItem = styled.li`
+  margin: 0 auto;
+  text-align: center;
+  border: 2px solid rosybrown;
   width: 300px;
   padding: 50px;
   margin-bottom: 30px;
