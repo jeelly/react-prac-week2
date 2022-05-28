@@ -29,8 +29,8 @@ let Nav = (props) => {
         >
           {t.title}
         </a>
-        <p>{t.mean}</p>
-        <p>{t.comment}</p>
+        {/* <p>{t.mean}</p> */}
+        {/* <p>{t.comment}</p> */}
       </Item>
     );
   }
@@ -48,7 +48,7 @@ export default function ListPage() {
   const [id, setId] = useState(null);
 
   if (mode === "MAIN") {
-    content = <article>웰컴모드입니다.</article>;
+    content = <article>메인페이지입니다.</article>;
   } else if (mode === "READ") {
     let title,
       mean,
