@@ -7,10 +7,11 @@ import { Link } from "react-router-dom";
 
 import { Provider, useSelector, useDispatch, connect } from "react-redux";
 
-let Nav = (props) => {
+let Nav = () => {
   const item = [];
-  for (let i = 0; i < props.topics.length; i++) {
-    let t = props.topics[i];
+  const topics = useSelector((state) => state);
+  for (let i = 0; i < topics.length; i++) {
+    let t = topics[i];
     // console;
     item.push(
       <Item key={t.id}>
@@ -25,7 +26,9 @@ let Nav = (props) => {
   return <List>{item}</List>;
 };
 
-export default function ListPage(props) {
+export default function ListPage() {
+  // const topics = useSelector((state) => state);
+  // console.log(topics);
   return (
     <>
       <Nav />

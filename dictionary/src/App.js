@@ -15,13 +15,10 @@ export default function App() {
         <Link to="/">
           <Title>단어장</Title>
         </Link>
-        <Link to="write">write</Link>
-        <ListWrap>
-          <Routes>
-            <Route path="/" element={<Main />} />
-            <Route path="/write" element={<Write />} />
-          </Routes>
-        </ListWrap>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/write" element={<Write />} />
+        </Routes>
       </BrowserRouter>
     </>
   );
@@ -31,9 +28,4 @@ const Title = styled.h1`
   color: skyblue;
   margin-top: 50px;
   margin-bottom: 50px;
-`;
-
-const ListWrap = styled.div`
-  display: flex;
-  padding: 0;
 `;
