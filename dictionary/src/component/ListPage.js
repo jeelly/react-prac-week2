@@ -73,6 +73,7 @@ export default function ListPage() {
   return (
     <>
       {content}
+      {/* Nav에서 아이디값을 받아온다. */}
       <Nav
         onChangeMode={(_id) => {
           setMode("READ");
