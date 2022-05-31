@@ -2,7 +2,7 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 
 const Progress = (props) => {
-  // return <Circle></Circle>;
+  return <Circle></Circle>;
 };
 
 export default Progress;

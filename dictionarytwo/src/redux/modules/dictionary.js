@@ -50,9 +50,8 @@ export function TrueUpdateDictionary(dictionary_index) {
 export default function reducer2(state = currentState, action = {}) {
   switch (action.type) {
     case "dictionary/CREATE": {
-      const newState = [...currentState.list, action.dictionary];
-      // console.log(action.dictionary);
-      return { ...currentState, list: newState };
+      const newState = [...state.list, action.dictionary];
+      return { ...state, list: newState };
     }
 
     case "dictionary/REMOVE": {
