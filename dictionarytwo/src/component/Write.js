@@ -4,7 +4,7 @@ import "../Main.css";
 import styled from "styled-components";
 //redux
 import { useDispatch, useSelector } from "react-redux";
-import { createDictionary } from "../redux/modules/dictionary";
+import { createDictionary, addDictionaryFB } from "../redux/modules/dictionary";
 //router
 import { useNavigate } from "react-router-dom";
 export default function Write(props) {
@@ -16,9 +16,17 @@ export default function Write(props) {
 
   const dispatch = useDispatch();
   const addDictionary = () => {
+    // dispatch(
+    //   createDictionary({
+    //     // id: topics.length + 1,
+    //     title: text.current.value,
+    //     mean: text2.current.value,
+    //     comment: text3.current.value,
+    //     completed: false,
+    //   })
+    // );
     dispatch(
-      createDictionary({
-        id: topics.length + 1,
+      addDictionaryFB({
         title: text.current.value,
         mean: text2.current.value,
         comment: text3.current.value,

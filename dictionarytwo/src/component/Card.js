@@ -7,11 +7,26 @@ import "../Main.css";
 import styled from "styled-components";
 //router
 //redux
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, createDispatchHook } from "react-redux";
 import {
   removeDictionary,
   TrueUpdateDictionary,
+  TrueUpdateDictionaryFB,
+  deleteDictionaryFB,
 } from "../redux/modules/dictionary";
+
+//파이어베이스
+import { db } from "../firebase"; //
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore"; //
+import { loadDictionaryFB } from "../redux/modules/dictionary"; //
 export default function Card({ match }) {
   //라우트
   let navigate = useNavigate();
@@ -19,32 +34,37 @@ export default function Card({ match }) {
   //   navigate("/");
   // }
   //리덕스
-  const topics = useSelector((state) => state);
+  // const topics = useSelector((state) => state);
   const dispatch = useDispatch();
   // parmas
   const { _id } = useParams();
   const dictionary_index = _id;
 
-  const cards = topics.dictionary.list[_id];
-
   const DelDictionary = () => {
     dispatch(removeDictionary(dictionary_index));
   };
-  const TrueUpdate = () => {
-    dispatch(TrueUpdateDictionary(dictionary_index));
-  };
-  // console.log(dictionary_index);
-  // console.log(_id, cards);
+
+  // LOAD
+  React.useEffect(() => {
+    dispatch(loadDictionaryFB());
+  }, []);
+
+  const topics = useSelector((list) => list.dictionary.list);
+  // console.log(topics[_id]);
+  // let cards = topics[_id];
+  const cards = topics[_id];
+
   return (
     <>
       <ul key={Number(_id)}>
-        <li>{cards?.title}</li>
-        <li>{cards?.mean}</li>
-        <li>{cards?.comment}</li>
+        <li>{cards?.list.title}</li>
+        <li>{cards?.list.mean}</li>
+        <li>{cards?.list.comment}</li>
       </ul>
       <button
         onClick={() => {
-          TrueUpdate();
+          // TrueUpdate();
+          dispatch(TrueUpdateDictionaryFB(topics[_id].id));
           navigate(-1);
         }}
       >
@@ -57,7 +77,7 @@ export default function Card({ match }) {
       </button>
       <button
         onClick={() => {
-          DelDictionary();
+          dispatch(deleteDictionaryFB(topics[_id].id));
           navigate(-1);
         }}
       >

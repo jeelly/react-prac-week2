@@ -1,59 +1,142 @@
+import { db } from "../../firebase";
+import {
+  collection,
+  doc,
+  docRef, // 어떤걸 업데이트할거셈?
+  getDoc,
+  getDocs, // 데이터 가져오기
+  addDoc, //데이터 추가
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
+import { async } from "@firebase/util";
 // widgets.js
 
 // Actions
+const LOAD = "dictionary/LOAD";
 const CREATE = "dictionary/CREATE";
 const UPDATE = "dictionary/UPDATE";
 const TRUEUPDATE = "dictionary/TRUEUPDATE";
 const REMOVE = "dictionary/REMOVE";
 const currentState = {
   list: [
-    {
-      id: 1,
-      title: "사과",
-      mean: "나무의 열매.",
-      comment: "사과가 되지 말고 도마도가 되라",
-      completed: false,
-    },
-    {
-      id: 2,
-      title: "바나나",
-      mean: "나무의 열매.",
-      comment: "사과가 되지 말고 도마도가 되라",
-      completed: false,
-    },
-    {
-      id: 3,
-      title: "배",
-      mean: "나무의 열매.",
-      comment: "사과가 되지 말고 도마도가 되라",
-      completed: false,
-    },
+    // {
+    //   id: 1,
+    //   title: "사과",
+    //   mean: "나무의 열매.",
+    //   comment: "사과가 되지 말고 도마도가 되라",
+    //   completed: false,
+    // },
+    // {
+    //   id: 2,
+    //   title: "바나나",
+    //   mean: "나무의 열매.",
+    //   comment: "사과가 되지 말고 도마도가 되라",
+    //   completed: false,
+    // },
+    // {
+    //   id: 3,
+    //   title: "배",
+    //   mean: "나무의 열매.",
+    //   comment: "사과가 되지 말고 도마도가 되라",
+    //   completed: false,
+    // },
   ],
 };
 // Action Creators
+export function loadDictionary(list) {
+  return { type: LOAD, list };
+}
 export function createDictionary(dictionary) {
   return { type: CREATE, dictionary };
+}
+export function updateDictionary(dictionary_id) {
+  return { type: UPDATE, dictionary_id };
 }
 export function removeDictionary(dictionary_index) {
   return { type: REMOVE, dictionary_index };
 }
-
-//글내용수정
-export function updateDictionary(dictionary, dictionary_index) {
-  return { type: UPDATE, dictionary, dictionary_index };
-}
+// //글내용수정
+// export function updateDictionary(dictionary, dictionary_index) {
+//   return { type: UPDATE, dictionary, dictionary_index };
+// }
 //완료했을때 색상변경
 export function TrueUpdateDictionary(dictionary_index) {
   return { type: TRUEUPDATE, dictionary_index };
 }
+
+//미들웨어
+//파라미터는 추가할 무언가를 받아오셈
+//비동기 작업에는 async await 붙이셈
+export const loadDictionaryFB = () => {
+  return async function (dispatch) {
+    const dic_data = await getDocs(collection(db, "list"));
+    // console.log(dic_data);
+    let list = [];
+    dic_data.forEach((doc) => {
+      // console.log(doc.data());
+      list.push({ id: doc.id, ...doc.data() });
+      // dictionary_list = [...dictionary_list, { ...doc.data() }];
+    });
+    // console.log(list);
+    dispatch(loadDictionary(list));
+  };
+};
+
+export const addDictionaryFB = (list) => {
+  return async function (dispatch) {
+    // let dictionary = [];
+    const docRef = await addDoc(collection(db, "list"), { list });
+    // const _dictionary = await getDoc(docRef);
+    // dictionary.push({ id: _dictionary.id, ..._dictionary.data() });
+    const dictionary = { id: docRef.id, ...list };
+    dispatch(createDictionary(dictionary));
+    console.log(dictionary.list);
+  };
+};
+
+export const TrueUpdateDictionaryFB = (dictionary_id) => {
+  return async function (dispatch, getState) {
+    const docRef = doc(db, "list", dictionary_id);
+    await updateDoc(docRef, { list: { completed: true } });
+
+    console.log(getState().dictionary);
+    const _dictionary_list = getState().dictionary.list;
+    const dictionary_index = _dictionary_list.findIndex((b) => {
+      return b.id === dictionary_id;
+    });
+    dispatch(updateDictionary(dictionary_index));
+  };
+};
+
+export const deleteDictionaryFB = (dictionary_id) => {
+  return async function (dispatch, getState) {
+    if (!dictionary_id) {
+      window.alert("아이디가 없습니다.");
+      return;
+    }
+    const docRef = doc(db, "list", dictionary_id);
+    await deleteDoc(docRef);
+
+    const _dictionary_list = getState().dictionary.list;
+    const dictionary_index = _dictionary_list.findIndex((b) => {
+      return b.id === dictionary_id;
+    });
+    dispatch(removeDictionary(dictionary_index));
+  };
+};
 // reducer는 두개를 받는다 현재State값, action(어떻게 바꿀것인지.)
 export default function reducer2(state = currentState, action = {}) {
   switch (action.type) {
+    case "dictionary/LOAD": {
+      return { list: action.list };
+    }
+    // case "dictionary/ADD"
     case "dictionary/CREATE": {
       const newState = [...state.list, action.dictionary];
-      return { ...state, list: newState };
+      // return { ...state, list: newState };
+      return { list: newState };
     }
-
     case "dictionary/REMOVE": {
       const newState = state.list.filter((l, idx) => {
         return parseInt(action.dictionary_index) !== idx;
@@ -63,6 +146,7 @@ export default function reducer2(state = currentState, action = {}) {
     }
 
     //word.id === action.word.id ? { ...word, ...action.word } : word
+
     case "dictionary/UPDATE": {
       const newState = state.list.map((l, idx) => {
         if (parseInt(action.dictionary_index) === idx) {

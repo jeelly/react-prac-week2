@@ -1,4 +1,6 @@
+import React, { useEffect } from "react";
 import "./Main.css";
+
 // styled componets
 import styled from "styled-components";
 // Route
@@ -11,6 +13,7 @@ import Card from "./component/Card";
 import Update from "./component/Update";
 import NotFound from "./component/NotFound";
 import Progress from "./component/Progress";
+
 export default function App() {
   return (
     <>
