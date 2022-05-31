@@ -9,32 +9,17 @@ import { Link } from "react-router-dom";
 import { Provider, useSelector, useDispatch, connect } from "react-redux";
 
 let Nav = (props) => {
-  // const item = [];
-  const topics = useSelector((state) => state.dictionary);
-  // console.log(topics);
-  // for (let i = 0; i < topics.length; i++) {
-  // let t = topics[i];
-  // console;
-  //   item.push(
-  //     <Item key={t.id}>
-  //       {/* <Link id={t.id} to={"card" + t.id}> */}
-  //       <Link id={t.id} to={`/card/${parseInt(t.id)}`}>
-  //         {t.title}
-  //       </Link>
-  //       <p>{t.mean}</p>
-  //       <p>{t.comment}</p>
-  //     </Item>
-  //   );
-  // }
+  const topics = useSelector((state) => state.dictionary.list);
+  console.log(topics);
   const items = topics.map((item, index) => {
     return (
-      <Item key={index}>
+      <Item completed={item.completed} key={index}>
         {/* <Link id={t.id} to={"card" + t.id}> */}
         <Link id={index} to={`/card/${parseInt(index)}`}>
           {item.title}
         </Link>
         <p>{item.mean}</p>
-        <p>{item.comment}</p>
+        <Comment>{item.comment}</Comment>
       </Item>
     );
   });
@@ -55,6 +40,8 @@ const Item = styled.li`
   width: 300px;
   padding: 50px;
   margin-bottom: 30px;
+  background-color: ${(props) =>
+    props.completed ? "rosybrown" : "transparent"};
 `;
 
 const SelectItem = styled.li`
@@ -73,4 +60,11 @@ const List = styled.ul`
   justify-content: space-evenly;
   width: 80vw;
   margin: 0 auto;
+
+  /* overflow-x: hidden;
+  overflow-y: hidden;
+  max-height: 50vh; */
+`;
+const Comment = styled.p`
+  color: skyblue;
 `;

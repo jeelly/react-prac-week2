@@ -1,29 +1,32 @@
-import React from "react";
+import React, { useRef } from "react";
 import "../Main.css";
 // styled componets
 import styled from "styled-components";
 //redux
 import { useDispatch, useSelector } from "react-redux";
 import { createDictionary } from "../redux/modules/dictionary";
+//router
+import { useNavigate } from "react-router-dom";
 export default function Write(props) {
+  let navigate = useNavigate();
+  const topics = useSelector((state) => state.dictionary.list);
   const text = React.useRef(null);
-  const text1 = React.useRef(null);
   const text2 = React.useRef(null);
+  const text3 = React.useRef(null);
 
-  const topics = useSelector((state) => state.dictionary);
   const dispatch = useDispatch();
-
   const addDictionary = () => {
     dispatch(
       createDictionary({
-        // id: topics.length + 1,
+        id: topics.length + 1,
         title: text.current.value,
-        mean: text1.current.value,
-        comment: text2.current.value,
+        mean: text2.current.value,
+        comment: text3.current.value,
+        completed: false,
       })
     );
   };
-  console.log(topics);
+
   return (
     <WriteWrap>
       <form
@@ -44,20 +47,26 @@ export default function Write(props) {
             name="mean"
             type="text"
             placeholder="뜻을 입력하세요."
-            ref={text1}
+            ref={text2}
           />
         </p>
         <p>
           <input
             type="text"
             name="comment"
-            placeholder="해설을 입력하세요."
-            ref={text2}
+            placeholder="예시를 입력하세요."
+            ref={text3}
           />
         </p>
         <p>
-          <input type="submit" value="Create" onClick={addDictionary} />
-          {/* <button onClick={addDictionary}>Createsdasa</button> */}
+          <input
+            type="submit"
+            value="Create"
+            onClick={() => {
+              addDictionary();
+              navigate(-1);
+            }}
+          />
         </p>
       </form>
     </WriteWrap>

@@ -1,22 +1,16 @@
 // 리액트 패키지를 불러옵니다.
 import React from "react";
 import styled from "styled-components";
-
 import { useHistory } from "react-router-dom";
-//리덕스
 import { useSelector } from "react-redux";
 
-const BucketList = () => {
-  let history = useHistory();
-
-  //   const my_lists = props.list;
-
-  const data = useSelector((state) => state.bucket.list);
-  console.log(data);
+const BucketList = (props) => {
+  const history = useHistory();
+  const my_lists = useSelector((state) => state.bucket.list);
 
   return (
     <ListStyle>
-      {data.map((list, index) => {
+      {my_lists.map((list, index) => {
         return (
           <ItemStyle
             className="list_item"
