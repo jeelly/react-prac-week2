@@ -4,35 +4,49 @@ import "../Main.css";
 import styled from "styled-components";
 //redux
 import { useDispatch, useSelector } from "react-redux";
-import { createDictionary, addDictionaryFB } from "../redux/modules/dictionary";
+import { addDictionaryFB } from "../redux/modules/dictionary";
 //router
 import { useNavigate } from "react-router-dom";
 export default function Write(props) {
   let navigate = useNavigate();
-  const topics = useSelector((state) => state.dictionary.list);
+  // const topics = useSelector((state) => state.dictionary.list);
   const text = React.useRef(null);
   const text2 = React.useRef(null);
   const text3 = React.useRef(null);
-
   const dispatch = useDispatch();
+
+  // firebase에서 시간순으로 불러올 수 있도록 date 값을 추가, 암기/미암기 상태를 저장할 수 있도록 completed 값 추가
+
+  const getInputData = () => {
+    const title = text.current.value;
+    const mean = text2.current.value;
+    const comment = text3.current.value;
+    // completed: false,
+    // 유효성 체크
+    if (!title || !mean || !comment) {
+      alert("아직 입력하지 않은 항목이 있습니다.");
+      return false;
+    }
+
+    // 반환할 object
+    const dictionary_obj = {
+      title,
+      mean,
+      comment,
+    };
+    return dictionary_obj;
+  };
+
   const addDictionary = () => {
-    // dispatch(
-    //   createDictionary({
-    //     // id: topics.length + 1,
-    //     title: text.current.value,
-    //     mean: text2.current.value,
-    //     comment: text3.current.value,
-    //     completed: false,
-    //   })
-    // );
-    dispatch(
-      addDictionaryFB({
-        title: text.current.value,
-        mean: text2.current.value,
-        comment: text3.current.value,
-        completed: false,
-      })
-    );
+    const dictionary_obj = getInputData();
+    if (!dictionary_obj) return;
+    // firebase에서 시간순으로 불러올 수 있도록 date 값을 추가, 암기/미암기 상태를 저장할 수 있도록 completed 값 추가
+    const new_dictionary_obj = {
+      ...dictionary_obj,
+      date: Date.now(),
+      completed: false,
+    };
+    dispatch(addDictionaryFB(new_dictionary_obj));
   };
 
   return (

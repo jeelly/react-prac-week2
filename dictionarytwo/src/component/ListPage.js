@@ -2,40 +2,31 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 
 // styled componets
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { Link } from "react-router-dom";
 
 import { Provider, useSelector, useDispatch, connect } from "react-redux";
 
-//파이어베이스
-
-import { db } from "../firebase"; //
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-} from "firebase/firestore"; //
-import { loadDictionaryFB } from "../redux/modules/dictionary"; //
+import { loadDictionaryFB, updateColorFB } from "../redux/modules/dictionary";
 
 let Nav = (props) => {
-  const dispatch = useDispatch(); //
+  // 암기/미암기 상태를 toggle 하는 함수
+  const toggleCheck = (word) => {
+    dispatch(updateColorFB(word));
+  };
+
+  const dispatch = useDispatch();
 
   // LOAD
   React.useEffect(() => {
     dispatch(loadDictionaryFB());
   }, []);
   const topics = useSelector((list) => list.dictionary.list);
-  // console.log(topics);
-  // const topics = useSelector((state) => state.dictionary.list);
   const items = topics.map((item, index) => {
     return (
-      <Link id={index} to={`/card/${parseInt(index)}`}>
-        <Item completed={item.list?.completed} key={index}>
+      <Link key={index} id={index} to={`/card/${parseInt(index)}`}>
+        <Item completed={item?.completed} key={index}>
           {/* <Link id={t.id} to={"card" + t.id}> */}
 
           <p>{item.list?.title}</p>
@@ -52,6 +43,7 @@ export default function ListPage() {
   return (
     <>
       <Nav />
+      {/* <Card></Card> */}
     </>
   );
 }

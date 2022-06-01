@@ -13,6 +13,7 @@ import {
   TrueUpdateDictionary,
   TrueUpdateDictionaryFB,
   deleteDictionaryFB,
+  updateColorFB,
 } from "../redux/modules/dictionary";
 
 //파이어베이스
@@ -40,9 +41,9 @@ export default function Card({ match }) {
   const { _id } = useParams();
   const dictionary_index = _id;
 
-  const DelDictionary = () => {
-    dispatch(removeDictionary(dictionary_index));
-  };
+  // const DelDictionary = () => {
+  //   dispatch(removeDictionary(dictionary_index));
+  // };
 
   // LOAD
   React.useEffect(() => {
@@ -53,7 +54,6 @@ export default function Card({ match }) {
   // console.log(topics[_id]);
   // let cards = topics[_id];
   const cards = topics[_id];
-
   return (
     <>
       <ul key={Number(_id)}>
@@ -63,8 +63,9 @@ export default function Card({ match }) {
       </ul>
       <button
         onClick={() => {
-          // TrueUpdate();
-          dispatch(TrueUpdateDictionaryFB(topics[_id].id));
+          // toggleCheck();
+          dispatch(updateColorFB(cards, cards.id));
+          // dispatch(TrueUpdateDictionaryFB(topics[_id].id));
           navigate(-1);
         }}
       >
