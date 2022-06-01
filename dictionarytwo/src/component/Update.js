@@ -54,10 +54,10 @@ export default function Update({ match }) {
     // firebase에서 시간순으로 불러올 수 있도록 date 값을 추가, 암기/미암기 상태를 저장할 수 있도록 completed 값 추가
     const new_dictionary_obj = {
       ...dictionary_obj,
-      date: Date.now(),
-      completed: false,
+      // date: Date.now(),
+      // completed: false,
     };
-    dispatch(updateDictionaryFB(new_dictionary_obj, dictionary_index));
+    dispatch(updateDictionaryFB(new_dictionary_obj, cards.id));
   };
 
   // LOAD
@@ -67,7 +67,6 @@ export default function Update({ match }) {
 
   const topics = useSelector((list) => list.dictionary.list);
   const cards = topics[_id];
-
   // 단어를 수정하는 함수
   // const upDictionary = () => {
   //   dispatch(
@@ -89,32 +88,37 @@ export default function Update({ match }) {
           event.preventDefault(); // 새로고침을 안한다는 명령어
         }}
       >
+        <FromInner>
+          <p>
+            <Title>Title</Title>
+            <Input
+              type="text"
+              ref={text}
+              name="title"
+              defaultValue={cards?.list.title}
+            />
+          </p>
+          <p>
+            <Title>Mean</Title>
+            <Input
+              name="mean"
+              ref={text2}
+              type="text"
+              defaultValue={cards?.list.mean}
+            />
+          </p>
+          <p>
+            <Title>Comment</Title>
+            <Input
+              type="text"
+              ref={text3}
+              name="comment"
+              defaultValue={cards?.list.comment}
+            />
+          </p>
+        </FromInner>
         <p>
-          <input
-            type="text"
-            ref={text}
-            name="title"
-            defaultValue={cards?.list.title}
-          />
-        </p>
-        <p>
-          <input
-            name="mean"
-            ref={text2}
-            type="text"
-            defaultValue={cards?.list.mean}
-          />
-        </p>
-        <p>
-          <input
-            type="text"
-            ref={text3}
-            name="comment"
-            defaultValue={cards?.list.comment}
-          />
-        </p>
-        <p>
-          <input
+          <Input_Btn
             type="submit"
             value="수정완료"
             onClick={() => {
@@ -122,15 +126,64 @@ export default function Update({ match }) {
               navigate(-1);
             }}
           />
-          <button
+          <Btn
             onClick={() => {
               navigate(-1);
             }}
           >
             취소
-          </button>
+          </Btn>
         </p>
       </form>
     </>
   );
 }
+
+const Title = styled.p`
+  font-size: 22px;
+  color: #2467dc;
+  font-weight: bold;
+`;
+const Input = styled.input`
+  width: 400px;
+  font-size: 18px;
+  border: none;
+  border-bottom: 1px solid #2467dc;
+  padding: 0;
+  margin-bottom: 50px;
+  padding-top: 30px;
+`;
+const FromInner = styled.div`
+  /* display: flex; */
+  /* flex-direction: column; */
+  width: 100vw;
+`;
+const Input_Btn = styled.input`
+  width: 200px;
+  height: 50px;
+  color: white;
+  padding: 10px 0;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  margin: 0px 2px;
+  border-radius: 5px;
+  border: none;
+  background-color: #2467dc;
+  cursor: pointer;
+`;
+
+const Btn = styled.button`
+  width: 200px;
+  height: 50px;
+  color: white;
+  padding: 10px 0;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  margin: 0px 2px;
+  border-radius: 5px;
+  border: none;
+  background-color: #2467dc;
+  cursor: pointer;
+`;

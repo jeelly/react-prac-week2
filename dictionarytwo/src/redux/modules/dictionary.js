@@ -8,6 +8,7 @@ import {
   addDoc, //데이터 추가
   updateDoc,
   deleteDoc,
+  startAfter,
 } from "firebase/firestore";
 
 // Actions
@@ -33,8 +34,8 @@ export function updateColor(list, dictionary_id) {
   return { type: COLORUPDATE, list, dictionary_id };
 }
 //완료했을때 변경
-export function updateDictionary(dictionary, dictionary_index) {
-  return { type: UPDATE, dictionary, dictionary_index };
+export function updateDictionary(dictionary, dictionary_id) {
+  return { type: UPDATE, dictionary, dictionary_id };
 }
 
 //미들웨어
@@ -77,33 +78,34 @@ export const deleteDictionaryFB = (dictionary_id) => {
   };
 };
 
-// 암기/미암기 토글 함수
 export const updateColorFB = (list, dictionary_id) => {
   return async function (dispatch) {
     const docRef = doc(db, "list", dictionary_id);
-    console.log(list.completed);
+    console.log("바뀌는 부분");
     await updateDoc(docRef, { ...list, completed: !list.completed });
     dispatch(updateColor(dictionary_id));
   };
 };
 
-export const updateDictionaryFB = (dictionary, dictionary_index) => {
+export const updateDictionaryFB = (dictionary, dictionary_id) => {
   return async function (dispatch) {
-    console.log(dictionary);
-    const docRef = doc(db, "list", dictionary_index);
-    await updateDoc(docRef, { ...dictionary, dictionary_index });
-
-    // const newState = db.list.map((l, idx) => {
-    //   if (parseInt(dictionary_index) === idx) {
-    //     return { ...l, ...dictionary };
-    //   } else {
-    //     return l;
-    //   }
-    // });
-    // const new_dictionary = { ...dictionary, dictionary_id };
-    dispatch(updateDictionary(dictionary, dictionary_index));
+    console.log(dictionary, dictionary_id);
+    // console.log(dictionary_id);
+    const docRef = doc(db, "list", dictionary_id);
+    console.log(docRef);
+    await updateDoc(docRef, dictionary);
+    dispatch(updateDictionary(dictionary));
   };
 };
+
+//UPDATE
+// export const updateDictionaryFB = (dictionary_id, dictionary) => {
+//   return async function (dispatch) {
+//     const docRef = doc(db, "list", dictionary_id);
+//     await updateDoc(docRef, { ...dictionary });
+//     dispatch(loadDictionaryFB(dictionary));
+//   };
+// };
 
 // reducer는 두개를 받는다 현재State값, action(어떻게 바꿀것인지.)
 export default function reducer2(state = currentState, action = {}) {
@@ -125,23 +127,31 @@ export default function reducer2(state = currentState, action = {}) {
       });
       return { list: newState };
     }
+    // case "dictionary/UPDATE": {
+    //   const newState = state.list.map((l, idx) => {
+    //     console.log("리듀서", action.dictionary);
+    //     console.log("리듀서state", l.list);
+    //     if (action.dictionary_id === l.id) {
+    //       return { ...l.list, ...action.dictionary };
+    //     } else {
+    //       return l;
+    //     }
+    //   });
+    // return { list: newState };
+    // }
     case "dictionary/UPDATE": {
-      const newState = state.list.map((l, idx) => {
-        if (parseInt(action.dictionary_index) === idx) {
-          return { ...l, ...action.dictionary };
-        } else {
-          return l;
-        }
-      });
+      console.log("리듀서", action.dictionary);
+      console.log("리듀서state", state.list);
+      const newState = [...state.list, { ...action.dictionary }];
       return { list: newState };
     }
 
-    case "dictionary/COLORUPDATE": {
-      const new_dictionary_list = state.list.map((l) =>
-        l.id === action.dictionary_id ? { ...l, completed: !l.completed } : l
-      );
-      return { ...state, list: new_dictionary_list };
-    }
+    // case "dictionary/COLORUPDATE": {
+    //   const new_dictionary_list = state.list.map((l) =>
+    //     l.id === action.dictionary_id ? { ...l, completed: !l.completed } : l
+    //   );
+    //   return { ...state, list: new_dictionary_list };
+    // }
     default:
       return state;
   }

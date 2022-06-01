@@ -27,11 +27,12 @@ let Nav = (props) => {
     return (
       <Link key={index} id={index} to={`/card/${parseInt(index)}`}>
         <Item completed={item?.completed} key={index}>
-          {/* <Link id={t.id} to={"card" + t.id}> */}
-
-          <p>{item.list?.title}</p>
-          {/* <p>{item?.list?.mean}</p> */}
-          <Comment>{item.list?.comment}</Comment>
+          <Iteminner>
+            {/* <Link id={t.id} to={"card" + t.id}> */}
+            <Title>{item.list?.title}</Title>
+            <Mean>({item?.list?.mean})</Mean>
+            <Comment>{item.list?.comment}</Comment>
+          </Iteminner>
         </Item>
       </Link>
     );
@@ -47,17 +48,48 @@ export default function ListPage() {
     </>
   );
 }
+var colorCode = "#" + Math.round(Math.random() * 0xffffff).toString(16);
+var colorCode2 = "#" + Math.round(Math.random() * 0xffffff).toString(16);
 
+console.log(colorCode);
+const Title = styled.p`
+  font-size: 26px;
+  font-weight: bold;
+  color: #e7e9e9;
+`;
+const Mean = styled.p`
+  color: #d2d2d2;
+  font-size: 14px;
+  font-weight: lighter;
+  margin-bottom: 18px;
+`;
+
+const Comment = styled.p`
+  font-weight: 400;
+  color: #a4fff1;
+`;
 const Item = styled.li`
-  text-align: center;
-  border-bottom: 1px solid rosybrown;
-  width: 300px;
-  padding: 10px 0;
-  margin-bottom: 30px;
-  border-radius: ${(props) => (props.completed ? "5px" : "0px")};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 200px;
+  margin: 0px 5px 10px 5px;
+  /* border: 1px solid ${colorCode2}; */
+  /* border-radius: ${(props) => (props.completed ? "5px" : "0px")}; */
 
-  background-color: ${(props) =>
-    props.completed ? "rosybrown" : "transparent"};
+  background-color: ${(props) => (props.completed ? colorCode : "transparent")};
+`;
+const Iteminner = styled.div`
+  width: 180px;
+  height: 180px;
+  padding: 10px 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.4);
 `;
 
 const SelectItem = styled.li`
@@ -71,18 +103,15 @@ const SelectItem = styled.li`
 
 const List = styled.ul`
   padding: 0;
+  padding: 2% 10%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
   flex-wrap: wrap;
-  /* justify-content: space-evenly; */
+  align-items: center;
+  justify-content: center;
   width: 80vw;
   margin: 0 auto;
-
-  /* overflow-x: hidden;
-  overflow-y: hidden;
-  max-height: 50vh; */
-`;
-const Comment = styled.p`
-  color: skyblue;
+  @media screen and (max-width: 1000px) {
+    width: 100vw;
+  }
 `;

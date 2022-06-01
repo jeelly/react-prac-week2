@@ -16,10 +16,10 @@ import Progress from "./component/Progress";
 
 export default function App() {
   return (
-    <>
+    <Wrap>
       <BrowserRouter>
         <Link to="/">
-          <Title>단어장</Title>
+          <Title>Dictionary</Title>
           <Progress />
         </Link>
 
@@ -31,12 +31,15 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
-    </>
+    </Wrap>
   );
 }
-
+const Wrap = styled.div`
+  /* background-color: #505050; */
+  padding-top: 100px;
+`;
 const Title = styled.h1`
-  color: skyblue;
-  margin-top: 50px;
+  color: black;
+  /* margin-top: 50px; */
   margin-bottom: 50px;
 `;

@@ -56,49 +56,100 @@ export default function Card({ match }) {
   const cards = topics[_id];
   return (
     <>
-      <ul key={Number(_id)}>
-        <li>{cards?.list.title}</li>
-        <li>{cards?.list.mean}</li>
-        <li>{cards?.list.comment}</li>
-      </ul>
-      <button
-        onClick={() => {
-          // toggleCheck();
-          dispatch(updateColorFB(cards, cards.id));
-          // dispatch(TrueUpdateDictionaryFB(topics[_id].id));
-          navigate(-1);
-        }}
-      >
-        완료
-      </button>
-      <button>
-        <Link id={_id} to={`/update/${_id}`}>
-          수정
-        </Link>
-      </button>
-      <button
-        onClick={() => {
-          dispatch(deleteDictionaryFB(topics[_id].id));
-          navigate(-1);
-        }}
-      >
-        삭제
-      </button>
+      <Ul key={Number(_id)}>
+        <Li>
+          <Title>Title</Title>
+          {cards?.list.title}
+        </Li>
+        <Li>
+          <Title>Mean</Title>
+          {cards?.list.mean}
+        </Li>
+        <Li>
+          <Title>Comment</Title>
+          {cards?.list.comment}
+        </Li>
+      </Ul>
+      <ButtonInner>
+        <Btn
+          onClick={() => {
+            // toggleCheck();
+            dispatch(updateColorFB(cards, cards.id));
+            // dispatch(TrueUpdateDictionaryFB(topics[_id].id));
+            navigate(-1);
+          }}
+        >
+          Complete
+        </Btn>
+        <Btn>
+          <StyledLink id={_id} to={`/update/${_id}`}>
+            Modify
+          </StyledLink>
+        </Btn>
+        <Btn
+          onClick={() => {
+            dispatch(deleteDictionaryFB(topics[_id].id));
+            navigate(-1);
+          }}
+        >
+          Delete
+        </Btn>
+      </ButtonInner>
     </>
   );
-
-  // const cards = topics.dictionary[_id - 1];
-  // // filter
-  // const card = topics.dictionary.filter(
-  //   (topic) => topic.id === Number(cards.id)
-  // );
-
-  // const dic_card = card.map((cards) => (
-  //   <ul key={cards.id}>
-  //     <li>{cards.title}</li>
-  //     <li>{cards.mean}</li>
-  //     <li>{cards.comment}</li>
-  //   </ul>
-  // ));
-  // return <>{dic_card}</>;
 }
+
+const StyledLink = styled(Link)`
+  color: white;
+`;
+
+const ButtonInner = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+  width: 100vw;
+`;
+
+const Btn = styled.button`
+  width: 200px;
+  height: 50px;
+  color: white;
+  padding: 10px 0;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  margin: 0px 2px;
+  border-radius: 5px;
+  border: none;
+  background-color: #2467dc;
+  cursor: pointer;
+`;
+const Title = styled.li`
+  font-weight: bold;
+  font-size: 20px;
+`;
+const Ul = styled.ul`
+  padding: 0;
+`;
+const Li = styled.li`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 18px;
+`;
+// const cards = topics.dictionary[_id - 1];
+// // filter
+// const card = topics.dictionary.filter(
+//   (topic) => topic.id === Number(cards.id)
+// );
+
+// const dic_card = card.map((cards) => (
+//   <ul key={cards.id}>
+//     <li>{cards.title}</li>
+//     <li>{cards.mean}</li>
+//     <li>{cards.comment}</li>
+//   </ul>
+// ));
+// return <>{dic_card}</>;

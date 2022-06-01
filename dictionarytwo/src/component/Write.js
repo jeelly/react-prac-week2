@@ -57,7 +57,7 @@ export default function Write(props) {
         }}
       >
         <p>
-          <input
+          <Input
             type="text"
             name="title"
             placeholder="단어를 입력하세요."
@@ -65,7 +65,7 @@ export default function Write(props) {
           />
         </p>
         <p>
-          <input
+          <Input
             name="mean"
             type="text"
             placeholder="뜻을 입력하세요."
@@ -73,7 +73,7 @@ export default function Write(props) {
           />
         </p>
         <p>
-          <input
+          <Input
             type="text"
             name="comment"
             placeholder="예시를 입력하세요."
@@ -81,7 +81,7 @@ export default function Write(props) {
           />
         </p>
         <p>
-          <input
+          <Btn
             type="submit"
             value="Create"
             onClick={() => {
@@ -100,4 +100,29 @@ const WriteWrap = styled.div`
   width: 100vw;
   display: flex;
   flex-direction: column;
+`;
+
+const Input = styled.input`
+  width: 400px;
+  font-size: 18px;
+  border: none;
+  border-bottom: 1px solid #2467dc;
+  padding: 0;
+  margin-bottom: 50px;
+  padding-top: 30px;
+`;
+
+const Btn = styled.input`
+  width: 200px;
+  height: 50px;
+  color: white;
+  padding: 10px 0;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  margin: 0px 2px;
+  border-radius: 5px;
+  border: none;
+  background-color: #2467dc;
+  cursor: pointer;
 `;
