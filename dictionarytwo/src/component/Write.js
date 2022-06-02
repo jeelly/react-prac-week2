@@ -104,7 +104,7 @@ const WriteWrap = styled.div`
 
 const Input = styled.input`
   width: 400px;
-  font-size: 18px;
+  font-size: 34px;
   border: none;
   border-bottom: 1px solid #2467dc;
   padding: 0;
@@ -119,10 +119,14 @@ const Btn = styled.input`
   padding: 10px 0;
   text-align: center;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 24px;
   margin: 0px 2px;
   border-radius: 5px;
   border: none;
   background-color: #2467dc;
   cursor: pointer;
+  transition: background-color 0.5s;
+  &:hover {
+    background-color: rgba(36, 103, 220, 0.5);
+  }
 `;

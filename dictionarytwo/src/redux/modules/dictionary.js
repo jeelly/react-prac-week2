@@ -17,7 +17,7 @@ const CREATE = "dictionary/CREATE";
 const UPDATE = "dictionary/UPDATE";
 const COLORUPDATE = "dictionary/COLORUPDATE";
 const REMOVE = "dictionary/REMOVE";
-const currentState = { list: [] };
+const currentState = { list: [{}] };
 
 // Action Creators
 export function loadDictionary(list) {
@@ -54,7 +54,7 @@ export const loadDictionaryFB = () => {
 
 export const addDictionaryFB = (list) => {
   return async function (dispatch) {
-    const docRef = await addDoc(collection(db, "list"), { list });
+    const docRef = await addDoc(collection(db, "list"), list);
     const dictionary = { id: docRef.id, ...list };
     dispatch(addDictionary(dictionary));
     console.log(dictionary.list);
@@ -142,7 +142,7 @@ export default function reducer2(state = currentState, action = {}) {
     case "dictionary/UPDATE": {
       console.log("리듀서", action.dictionary);
       console.log("리듀서state", state.list);
-      const newState = [...state.list, { ...action.dictionary }];
+      const newState = [...state.list, ...action.dictionary];
       return { list: newState };
     }
 

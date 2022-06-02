@@ -25,7 +25,7 @@ export default function App() {
 
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/write" element={<Write />} />
+          <Route path="/Write" element={<Write />} />
           <Route path="/update/:_id" element={<Update />} />
           <Route path="/card/:_id" element={<Card />} />
           <Route path="*" element={<NotFound />} />

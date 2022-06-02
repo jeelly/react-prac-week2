@@ -29,9 +29,9 @@ let Nav = (props) => {
         <Item completed={item?.completed} key={index}>
           <Iteminner>
             {/* <Link id={t.id} to={"card" + t.id}> */}
-            <Title>{item.list?.title}</Title>
-            <Mean>({item?.list?.mean})</Mean>
-            <Comment>{item.list?.comment}</Comment>
+            <Title>{item?.title}</Title>
+            <Mean>({item?.mean})</Mean>
+            <Comment>{item?.comment}</Comment>
           </Iteminner>
         </Item>
       </Link>
@@ -51,21 +51,22 @@ export default function ListPage() {
 var colorCode = "#" + Math.round(Math.random() * 0xffffff).toString(16);
 var colorCode2 = "#" + Math.round(Math.random() * 0xffffff).toString(16);
 
-console.log(colorCode);
+// console.log(colorCode);
 const Title = styled.p`
-  font-size: 26px;
+  font-size: 36px;
   font-weight: bold;
   color: #e7e9e9;
 `;
 const Mean = styled.p`
   color: #d2d2d2;
-  font-size: 14px;
+  font-size: 20px;
   font-weight: lighter;
   margin-bottom: 18px;
 `;
 
 const Comment = styled.p`
-  font-weight: 400;
+  /* font-weight: lighter; */
+  font-size: 26px;
   color: #a4fff1;
 `;
 const Item = styled.li`
@@ -77,8 +78,12 @@ const Item = styled.li`
   margin: 0px 5px 10px 5px;
   /* border: 1px solid ${colorCode2}; */
   /* border-radius: ${(props) => (props.completed ? "5px" : "0px")}; */
-
   background-color: ${(props) => (props.completed ? colorCode : "transparent")};
+  transition: transform 0.5s;
+  &:hover {
+    transform: scale(1.1);
+    transform: rotate(5deg);
+  }
 `;
 const Iteminner = styled.div`
   width: 180px;
@@ -90,6 +95,12 @@ const Iteminner = styled.div`
   align-items: center;
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.4);
+  transition: width 0.5s, height 0.5s, background-color 0.5s;
+  &:hover {
+    width: 200px;
+    height: 200px;
+    background-color: rgba(0, 0, 0, 0.9);
+  }
 `;
 
 const SelectItem = styled.li`

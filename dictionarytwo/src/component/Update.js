@@ -95,7 +95,7 @@ export default function Update({ match }) {
               type="text"
               ref={text}
               name="title"
-              defaultValue={cards?.list.title}
+              defaultValue={cards?.title}
             />
           </p>
           <p>
@@ -104,7 +104,7 @@ export default function Update({ match }) {
               name="mean"
               ref={text2}
               type="text"
-              defaultValue={cards?.list.mean}
+              defaultValue={cards?.mean}
             />
           </p>
           <p>
@@ -113,7 +113,7 @@ export default function Update({ match }) {
               type="text"
               ref={text3}
               name="comment"
-              defaultValue={cards?.list.comment}
+              defaultValue={cards?.comment}
             />
           </p>
         </FromInner>
@@ -140,13 +140,13 @@ export default function Update({ match }) {
 }
 
 const Title = styled.p`
-  font-size: 22px;
+  font-size: 28px;
   color: #2467dc;
   font-weight: bold;
 `;
 const Input = styled.input`
   width: 400px;
-  font-size: 18px;
+  font-size: 34px;
   border: none;
   border-bottom: 1px solid #2467dc;
   padding: 0;
@@ -164,13 +164,17 @@ const Input_Btn = styled.input`
   color: white;
   padding: 10px 0;
   text-align: center;
-  font-weight: bold;
-  font-size: 18px;
+  /* font-weight: bold; */
+  font-size: 24px;
   margin: 0px 2px;
   border-radius: 5px;
   border: none;
   background-color: #2467dc;
   cursor: pointer;
+  transition: background-color 0.5s;
+  &:hover {
+    background-color: rgba(36, 103, 220, 0.5);
+  }
 `;
 
 const Btn = styled.button`
@@ -179,11 +183,15 @@ const Btn = styled.button`
   color: white;
   padding: 10px 0;
   text-align: center;
-  font-weight: bold;
-  font-size: 18px;
+  /* font-weight: bold; */
+  font-size: 24px;
   margin: 0px 2px;
   border-radius: 5px;
   border: none;
   background-color: #2467dc;
   cursor: pointer;
+  transition: background-color 0.5s;
+  &:hover {
+    background-color: rgba(36, 103, 220, 0.5);
+  }
 `;

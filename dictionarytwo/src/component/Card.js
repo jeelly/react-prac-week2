@@ -54,20 +54,21 @@ export default function Card({ match }) {
   // console.log(topics[_id]);
   // let cards = topics[_id];
   const cards = topics[_id];
+  console.log(cards);
   return (
     <>
       <Ul key={Number(_id)}>
         <Li>
           <Title>Title</Title>
-          {cards?.list.title}
+          {cards?.title}
         </Li>
         <Li>
           <Title>Mean</Title>
-          {cards?.list.mean}
+          {cards?.mean}
         </Li>
         <Li>
           <Title>Comment</Title>
-          {cards?.list.comment}
+          {cards?.comment}
         </Li>
       </Ul>
       <ButtonInner>
@@ -118,17 +119,22 @@ const Btn = styled.button`
   color: white;
   padding: 10px 0;
   text-align: center;
-  font-weight: bold;
-  font-size: 18px;
+  /* font-weight: bold; */
+  font-size: 24px;
   margin: 0px 2px;
   border-radius: 5px;
   border: none;
   background-color: #2467dc;
   cursor: pointer;
+  transition: background-color 0.5s;
+  &:hover {
+    background-color: rgba(36, 103, 220, 0.5);
+  }
 `;
 const Title = styled.li`
   font-weight: bold;
-  font-size: 20px;
+  color: #2467dc;
+  font-size: 28px;
 `;
 const Ul = styled.ul`
   padding: 0;
@@ -137,7 +143,7 @@ const Li = styled.li`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-size: 18px;
+  font-size: 34px;
 `;
 // const cards = topics.dictionary[_id - 1];
 // // filter
